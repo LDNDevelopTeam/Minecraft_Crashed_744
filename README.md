@@ -1,3 +1,6 @@
+## English
+https://github.com/LDNServer/Minecraft_Crashed_744/blob/main/README_EN.md
+
 ## Crashed_744
 LDTで作られた、呪いのMinecraftバージョン<br>
 Minecraft 1.1(Pending)<br>
