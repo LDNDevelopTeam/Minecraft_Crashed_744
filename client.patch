@@ -3408,8 +3408,6 @@
 +						playerSP.onGround = false;
 +					}
 +					if(this.timer[3] >= 20 * 28) {
-+						this.timer[3] = 0;
-+						this.timerS[3] = false;
 +						double r = 50.0D;
 +						AxisAlignedBB box = AxisAlignedBB.getBoundingBox(
 +								this.sPos[0] - r, this.sPos[1] - r, this.sPos[2] - r,
@@ -3430,6 +3428,8 @@
 +						playerSP.TheWatcher = false;
 +						playerSP.noClip = false;
 +						playerSP.setLocationAndAngles(this.sPos[0], this.sPos[1] + 2, this.sPos[2], this.sR[0], this.sR[1]);
++						this.timer[3] = 0;
++						this.timerS[3] = false;
 +						throw new Error("I'm looking at you.");
 +					}
 +				}

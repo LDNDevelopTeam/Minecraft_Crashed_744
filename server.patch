@@ -171,7 +171,7 @@
  	public boolean handleMaterialAcceleration(AxisAlignedBB var1, Material var2, Entity var3) {
  		int var4 = MathHelper.floor_double(var1.minX);
  		int var5 = MathHelper.floor_double(var1.maxX + 1.0D);
-@@ -1465,10 +1507,834 @@
+@@ -1465,15 +1507,850 @@
  		this.spawnPeacefulMobs = var2;
  	}
  
@@ -505,25 +505,25 @@
 +
 +	public void event4(EntityPlayerMP playerSP) {
 +		if(new Random().nextInt(6) == 0) {
-+			this.sPos[0] = playerSP.posX;
-+			this.sPos[1] = playerSP.posY;
-+			this.sPos[2] = playerSP.posZ;
-+			this.sR[0] = playerSP.rotationYaw;
-+			this.sR[1] = playerSP.rotationPitch;
-+			playerSP.playerNetServerHandler.sendPacket(new Packet81Sound("/sounds/crashed722.wav"));
 +			this.sPlayer = playerSP;
++			this.sPlayer.SPos[0] = playerSP.posX;
++			this.sPlayer.SPos[1] = playerSP.posY;
++			this.sPlayer.SPos[2] = playerSP.posZ;
++			this.sPlayer.SR[0] = playerSP.rotationYaw;
++			this.sPlayer.SR[1] = playerSP.rotationPitch;
++			playerSP.playerNetServerHandler.sendPacket(new Packet81Sound("/sounds/crashed722.wav"));
 +			this.timerS[1] = true;
 +		}
 +	}
 +
 +	public void event4nr(EntityPlayerMP playerSP) {
-+		this.sPos[0] = playerSP.posX;
-+		this.sPos[1] = playerSP.posY;
-+		this.sPos[2] = playerSP.posZ;
-+		this.sR[0] = playerSP.rotationYaw;
-+		this.sR[1] = playerSP.rotationPitch;
-+		playerSP.playerNetServerHandler.sendPacket(new Packet81Sound("/sounds/crashed722.wav"));
 +		this.sPlayer = playerSP;
++		this.sPlayer.SPos[0] = playerSP.posX;
++		this.sPlayer.SPos[1] = playerSP.posY;
++		this.sPlayer.SPos[2] = playerSP.posZ;
++		this.sPlayer.SR[0] = playerSP.rotationYaw;
++		this.sPlayer.SR[1] = playerSP.rotationPitch;
++		playerSP.playerNetServerHandler.sendPacket(new Packet81Sound("/sounds/crashed722.wav"));
 +		this.timerS[1] = true;
 +	}
 +
@@ -595,25 +595,29 @@
 +		this.spawnEntityInWorld(segfault);
 +	}
 +
-+	public void event7(EntityPlayerMP playerSP) {
-+		if(new Random().nextInt(4) == 0) {
-+			this.sPos[0] = playerSP.posX;
-+			this.sPos[1] = playerSP.posY;
-+			this.sPos[2] = playerSP.posZ;
-+			this.sR[0] = playerSP.rotationYaw;
-+			this.sR[1] = playerSP.rotationPitch;
++	public void event7(List<EntityPlayerMP> pl, EntityPlayerMP playerSP) {
++		if(new Random().nextInt(6) == 0) {
 +			this.sPlayer = playerSP;
++			for(EntityPlayerMP playerMP : pl) {
++				playerMP.SPos[0] = playerMP.posX;
++				playerMP.SPos[1] = playerMP.posY;
++				playerMP.SPos[2] = playerMP.posZ;
++				playerMP.SR[0] = playerMP.rotationYaw;
++				playerMP.SR[1] = playerMP.rotationPitch;
++			}
 +			this.timerS[3] = true;
 +		}
 +	}
 +
-+	public void event7nr(EntityPlayerMP playerSP) {
-+		this.sPos[0] = playerSP.posX;
-+		this.sPos[1] = playerSP.posY;
-+		this.sPos[2] = playerSP.posZ;
-+		this.sR[0] = playerSP.rotationYaw;
-+		this.sR[1] = playerSP.rotationPitch;
++	public void event7nr(List<EntityPlayerMP> pl, EntityPlayerMP playerSP) {
 +		this.sPlayer = playerSP;
++		for(EntityPlayerMP playerMP : pl) {
++			playerMP.SPos[0] = playerMP.posX;
++			playerMP.SPos[1] = playerMP.posY;
++			playerMP.SPos[2] = playerMP.posZ;
++			playerMP.SR[0] = playerMP.rotationYaw;
++			playerMP.SR[1] = playerMP.rotationPitch;
++		}
 +		this.timerS[3] = true;
 +	}
 +
@@ -684,6 +688,9 @@
  		if(this.getWorldInfo().isHardcoreModeEnabled() && this.difficultySetting < 3) {
  			this.difficultySetting = 3;
  		}
+-
+-		this.getWorldChunkManager().cleanupCache();
+-		this.updateWeather();
 +		List<EntityPlayerMP> pl = this.playerEntities;
 +		if(!pl.isEmpty()) {
 +			EntityPlayerMP playerSP = pl.get(new Random().nextInt(pl.size()));
@@ -717,7 +724,7 @@
 +				System.out.println("event6");
 +				break;
 +			case 7:
-+				this.event7(playerSP);
++				this.event7(pl, playerSP);
 +				System.out.println("event7");
 +				break;
 +			case 8:
@@ -890,11 +897,13 @@
 +				if(this.timer[3] == 20 * 20) {
 +					playerSP.mcServer.configManager.sendPacketToAllPlayers(new Packet3Chat("<The_Watching> 57Sg5 pW144 Gq5aC05 omA44Gr6KGM 44Gj44Gm 44Gv44 GE44GR 44G+4 4Gb44 \u00A74KT44CC\u00A7k"));
 +				}
-+				for(EntityPlayerMP v : pl) {
-+					if(this.timer[3] == 20 * 25) {
++				if(this.timer[3] == 20 * 25) {
++					for(EntityPlayerMP v : pl) {
 +						v.playerNetServerHandler.sendPacket(new Packet81Sound("/sounds/TheWatcher.wav"));
 +					}
-+					if(this.timer[3] >= 20 * 25) {
++				}
++				if(this.timer[3] >= 20 * 25) {
++					for(EntityPlayerMP v : pl) {
 +						v.TheWatcher = true;
 +						v.noClip = true;
 +						v.onGround = false;
@@ -910,13 +919,13 @@
 +						v.playerNetServerHandler.sendPacket(playerPosition);
 +						v.mcServer.configManager.sendPacketToAllPlayers(new Packet80Event(27));
 +					}
-+					if(this.timer[3] >= 20 * 28) {
-+						this.timer[3] = 0;
-+						this.timerS[3] = false;
++				}
++				if(this.timer[3] >= 20 * 28) {
++					for(EntityPlayerMP v : pl) {
 +						double r = 50.0D;
 +						AxisAlignedBB box = AxisAlignedBB.getBoundingBox(
-+								this.sPos[0] - r, this.sPos[1] - r, this.sPos[2] - r,
-+								this.sPos[0] + r, this.sPos[1] + r, this.sPos[2] + r
++								v.SPos[0] - r, v.SPos[1] - r, v.SPos[2] - r,
++								v.SPos[0] + r, v.SPos[1] + r, v.SPos[2] + r
 +						);
 +						for(int i = -4; i <= 4; i++) {
 +							for(int j = -4; j <= 4; j++) {
@@ -935,15 +944,11 @@
 +						v.onGround = true;
 +						v.capabilities.allowFlying = false;
 +						v.capabilities.isFlying = false;
-+						v.playerNetServerHandler.teleportTo(this.sPos[0], this.sPos[1] + 2, this.sPos[2], this.sR[0], this.sR[1]);
-+						v.moveEntity(v.motionX, v.motionY, v.motionZ);
-+						Packet11PlayerPosition playerPosition2 = new Packet11PlayerPosition();
-+						playerPosition2.xPosition = v.posX;
-+						playerPosition2.yPosition = v.posY;
-+						playerPosition2.zPosition = v.posZ;
-+						v.playerNetServerHandler.sendPacket(playerPosition2);
-+						v.playerNetServerHandler.sendPacket(new Packet80Event(30));
++						v.playerNetServerHandler.teleportTo(v.SPos[0], v.SPos[1] + 2, v.SPos[2], v.SR[0], v.SR[1]);
++						v.mcServer.configManager.sendPacketToAllPlayers(new Packet80Event(30));
 +					}
++					this.timer[3] = 0;
++					this.timerS[3] = false;
 +				}
 +			}
 +			if(this.timerS[4]) {
@@ -1003,10 +1008,41 @@
 +				playerSP.mcServer.configManager.sendPacketToAllPlayers(new Packet80Event(8));
 +			}
 +		}
++
++		this.
++
++				getWorldChunkManager().
++
++				cleanupCache();
++		this.
++
++				updateWeather();
++
+ 		long var2;
+-		if(this.isAllPlayersFullyAsleep()) {
++		if(this.
++
++				isAllPlayersFullyAsleep()) {
+ 			boolean var1 = false;
+ 			if(this.spawnHostileMobs && this.difficultySetting >= 1) {
+ 			}
+@@ -1502,9 +2379,13 @@
  
- 		this.getWorldChunkManager().cleanupCache();
- 		this.updateWeather();
-@@ -2142,7 +3008,7 @@
+ 		this.worldInfo.setWorldTime(var2);
+ 		Profiler.endStartSection("tickPending");
+-		this.tickUpdates(false);
++		this.
++
++				tickUpdates(false);
+ 		Profiler.endStartSection("tickTiles");
+-		this.doRandomUpdateTicks();
++		this.
++
++				doRandomUpdateTicks();
+ 		Profiler.endSection();
+ 	}
+ 
+@@ -2142,7 +3023,7 @@
  		if(var10 != null && !this.checkIfAABBIsClear(var10)) {
  			return false;
  		} else {
@@ -3071,6 +3107,26 @@
 +	}
 +
 +}
+--- net/minecraft/src/EntityPlayerMP.java
++++ net/minecraft/src/EntityPlayerMP.java
+@@ -24,6 +24,8 @@
+ 	public boolean isChangingQuantityOnly;
+ 	public int ping;
+ 	public boolean field_41032_j = false;
++	public double[] SPos;
++	public float[] SR;
+ 
+ 	public EntityPlayerMP(MinecraftServer var1, World var2, String var3, ItemInWorldManager var4) {
+ 		super(var2);
+@@ -44,6 +46,8 @@
+ 		this.stepHeight = 0.0F;
+ 		this.username = var3;
+ 		this.yOffset = 0.0F;
++		this.SPos = new double[3];
++		this.SR = new float[3];
+ 	}
+ 
+ 	public void readEntityFromNBT(NBTTagCompound var1) {
 --- net/minecraft/src/ComponentVillage.java
 +++ net/minecraft/src/ComponentVillage.java
 @@ -5,6 +5,7 @@
@@ -3293,10 +3349,11 @@
  		this.health -= var2;
 --- net/minecraft/src/ConsoleCommandHandler.java
 +++ net/minecraft/src/ConsoleCommandHandler.java
-@@ -1,8 +1,10 @@
+@@ -1,8 +1,11 @@
  package net.minecraft.src;
  
  import java.util.Iterator;
++import java.util.List;
 +import java.util.Random;
  import java.util.Set;
  import java.util.logging.Logger;
@@ -3304,12 +3361,12 @@
  import net.minecraft.server.MinecraftServer;
  
  public class ConsoleCommandHandler {
-@@ -24,6 +26,8 @@
+@@ -24,6 +27,8 @@
  			} else if(var2.toLowerCase().startsWith("stop")) {
  				this.sendNoticeToOps(var4, "Stopping the server..");
  				this.minecraftServer.initiateShutdown();
 +			} else if(var2.toLowerCase().startsWith("test")) {
-+				this.minecraftServer.worldMngr[0].event7nr((EntityPlayerMP)this.minecraftServer.worldMngr[0].playerEntities.get(new Random().nextInt(this.minecraftServer.worldMngr[0].playerEntities.size())));
++				this.minecraftServer.worldMngr[0].event7nr((List<EntityPlayerMP>)this.minecraftServer.worldMngr[0].playerEntities, (EntityPlayerMP)this.minecraftServer.worldMngr[0].playerEntities.get(new Random().nextInt(this.minecraftServer.worldMngr[0].playerEntities.size())));
  			} else {
  				int var6;
  				WorldServer var7;
