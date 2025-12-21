@@ -4,6 +4,8 @@
 てぃ(Texture)
 Test_Alpha(Texture)
 ポン酢 ajmpm(Tester)
+RYUOSHENRON(Logo)
+Yukine(Logo)
 
 ====Special thanks====
 LDN Server - LDNS
