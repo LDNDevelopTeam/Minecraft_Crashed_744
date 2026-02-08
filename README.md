@@ -53,17 +53,12 @@ Minecraft 1.1（Pending）
 ---
 
 ### サーバー
-1. Minecraft 1.1サーバーjarをダウンロード：  
-[1.1.jar](https://files.betacraft.uk/server-archive/release/1.1/1.1.jar)  
 
-2. Crashed_744サーバーzipをダウンロード：  
-[Crashed_744_server.zip](https://github.com/LDNDevelopTeam/Minecraft_Crashed_744/releases)  
+普通のMinecraftサーバーと同じです。各自で調べてやってみてください。
+※ クライアントと動作が違い、完璧ではなく、バグも多いです！やる際はバグを許容してください！
+必ずオフラインモードで実行してください！(初期状態ではオフになっています)
 
-3. 展開した `1.1.jar` フォルダ内に、`Crashed_744_server.zip` の中身をコピーして **すべて上書き** します。 
-
-4. 再びjarに戻して起動。Minecraft Crashed 744になっていれば完成です。  
-
-> **注意:** クライアントと挙動が異なる場合があります。バグも多いため、許容できる範囲でプレイしてください。  
+[Crashed_744_server.jar](https://github.com/LDNDevelopTeam/Minecraft_Crashed_744/releases)  
 
 ---
 
