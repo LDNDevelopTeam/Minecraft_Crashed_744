@@ -2203,7 +2203,7 @@
  	protected float blockHardness;
 --- /dev/null
 +++ net/minecraft/src/BlockFlowingError.java
-@@ -1,0 +1,56 @@
+@@ -1,0 +1,61 @@
 +package net.minecraft.src;
 +
 +import java.util.Random;
@@ -2220,9 +2220,14 @@
 +		this.setRequiresSelfNotify();
 +	}
 +
++	private static boolean isUpdating = false;
++
 +	public void updateTick(World world, int x, int y, int z, Random rand) {
++		if(isUpdating) return;
++		isUpdating = true;
 +		super.updateTick(world, x, y, z, rand);
 +		checkForHarden(world, x, y, z);
++		isUpdating = false;
 +	}
 +
 +	private void checkForHarden(World world, int x, int y, int z) {
